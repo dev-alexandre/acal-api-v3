@@ -1,0 +1,38 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/acal-v3
+    username: postgres
+    password: 200585
+  jpa:
+    hibernate:
+      ddl-auto: update
+      hbm2ddl:  auto
+    show-sql: true
+
+    properties:
+      hibernate:
+        format_sql: true
+        check_nullability: true
+
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+    generate-ddl: true
+
+logging:
+  pattern:
+    console: "%d %-5level %logger : %msg%n"
+  level:
+    org:
+      springframework: info
+      hibernate:
+        type: trace
+
+server:
+  port: 8080
+
+app:
+  environment:
+    dateTimeFormatter: 'dd/mm/yyyy hh:mm:ss'
+    dateFormatter:   'dd/mm/yyyy'
