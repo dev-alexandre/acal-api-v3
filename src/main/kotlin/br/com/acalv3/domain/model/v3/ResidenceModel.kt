@@ -11,22 +11,22 @@ import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.ManyToOne
 
-@Entity(name = "place_model")
-data class PlaceModel (
+@Entity(name = "residence_model")
+data class ResidenceModel (
 
 	@Id
     @GeneratedValue(
         strategy = GenerationType.SEQUENCE,
-        generator = "`seq_place`"
+        generator = "`seq_residence`"
     )
-	override var id: Long? = null,
+    override var id: Long? = null,
 
-	@ManyToOne(cascade = [CascadeType.MERGE])
-    var address: AddressModel? = null,
+	var letter: String? = "",
 
 	var number: String? = "",
 
-	var letter: String? = "",
+	@ManyToOne(cascade = [CascadeType.PERSIST])
+    var address: AddressModel? = null,
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -34,6 +34,6 @@ data class PlaceModel (
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	override var lastModifiedAt: LocalDateTime? = null,
+	override var lastModifiedAt: LocalDateTime? = null
 
 ) : AbstractModel

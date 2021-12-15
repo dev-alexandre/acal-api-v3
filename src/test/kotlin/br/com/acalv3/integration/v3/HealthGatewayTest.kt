@@ -1,7 +1,7 @@
-package br.com.acalv3.integration
+package br.com.acalv3.integration.v3
 
 import br.com.acalv3.domain.gateway.v3.HealthGateway
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.runner.RunWith

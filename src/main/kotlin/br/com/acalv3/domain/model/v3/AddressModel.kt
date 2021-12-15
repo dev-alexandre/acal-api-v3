@@ -1,6 +1,9 @@
 package br.com.acalv3.domain.model.v3
 
 import br.com.acalv3.domain.model.AbstractModel
+import com.fasterxml.jackson.annotation.JsonFormat
+import org.springframework.format.annotation.DateTimeFormat
+import java.time.LocalDateTime
 import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -17,7 +20,7 @@ data class AddressModel (
         strategy = GenerationType.SEQUENCE,
         generator = "`seq_address`"
     )
-    var id: Long? = null,
+    override var id: Long? = null,
 
 	@ManyToOne(cascade = [CascadeType.PERSIST])
     var addressType: AddressTypeModel? = null,
@@ -25,4 +28,12 @@ data class AddressModel (
 	@Column(unique = true)
     var name: String? = "",
 
-) : AbstractModel()
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	override var createdAt: LocalDateTime? = null,
+
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	override var lastModifiedAt: LocalDateTime? = null
+
+) : AbstractModel

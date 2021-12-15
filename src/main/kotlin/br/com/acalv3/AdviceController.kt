@@ -19,14 +19,19 @@ class AdviceController {
 		return body
 	}
 
-	@ExceptionHandler(value = [EmptyResultDataAccessException::class, NoSuchElementException::class])
+	@ExceptionHandler(value = [
+		EmptyResultDataAccessException::class,
+		NoSuchElementException::class]
+	)
 	fun e1 (exception: RuntimeException) = run {
 		ResponseEntity(getBody(exception),HttpStatus.NO_CONTENT)
 	}
 
-	@ExceptionHandler(value = [ConstraintViolationException::class, RequiredFieldException::class])
+	@ExceptionHandler(value = [
+		ConstraintViolationException::class,
+		RequiredFieldException::class
+	])
 	fun e2 (exception: RuntimeException) = run {
 		ResponseEntity(getBody(exception),HttpStatus.BAD_REQUEST)
 	}
-
 }

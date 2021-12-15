@@ -11,22 +11,31 @@ import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.ManyToOne
 
-@Entity(name = "place_model")
-data class PlaceModel (
+@Entity(name = "contract_model")
+data class ContractModel (
 
 	@Id
     @GeneratedValue(
         strategy = GenerationType.SEQUENCE,
-        generator = "`seq_place`"
+        generator = "`seq_contract`"
     )
-	override var id: Long? = null,
+    override var id: Long? = null,
 
-	@ManyToOne(cascade = [CascadeType.MERGE])
-    var address: AddressModel? = null,
+	var name: String? = "",
 
-	var number: String? = "",
+	var nameBusiness: String? = "",
 
-	var letter: String? = "",
+	@ManyToOne(cascade = [CascadeType.DETACH])
+	var group: GroupModel? = null,
+
+	@ManyToOne(cascade = [CascadeType.DETACH])
+    var addressResidence: AddressTypeModel? = null,
+
+	@ManyToOne(cascade = [CascadeType.DETACH])
+	var addressMail: AddressTypeModel? = null,
+
+	@ManyToOne(cascade = [CascadeType.DETACH])
+	var user: UserModel? = null,
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -34,6 +43,6 @@ data class PlaceModel (
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	override var lastModifiedAt: LocalDateTime? = null,
+	override var lastModifiedAt: LocalDateTime? = null
 
 ) : AbstractModel

@@ -16,12 +16,6 @@ class GroupService(
 		repository.findByName(name)
 
 	override fun valid(u: GroupModel) {
-
-		/*
-		if(u.value == null){
-			throw RequiredFieldException("Valor é um campo obrigatório")
-		}*/
-
 		if(u.category == null){
 			throw RequiredFieldException("Categoria é um campo obrigatório")
 		}

@@ -4,7 +4,11 @@ import br.com.acalv3.domain.model.AbstractModel
 import com.fasterxml.jackson.annotation.JsonFormat
 import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalDate
-import javax.persistence.*
+import java.time.LocalDateTime
+import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
+import javax.persistence.Id
 
 const val SEQ_NAME = "seq_customer"
 
@@ -16,7 +20,7 @@ data class CustomerModel (
         strategy = GenerationType.SEQUENCE,
         generator = SEQ_NAME
     )
-    var id: Long? = null,
+    override var id: Long? = null,
 
     var name: String? = "",
 
@@ -32,6 +36,14 @@ data class CustomerModel (
 
     @DateTimeFormat(pattern = "yyyy-MM-dd", iso = DateTimeFormat.ISO.DATE_TIME)
     @JsonFormat(pattern = "yyyy-MM-dd")
-    var birthDate: LocalDate? = null
+    var birthDate: LocalDate? = null,
 
-) : AbstractModel()
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    override var createdAt: LocalDateTime? = null,
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    override var lastModifiedAt: LocalDateTime? = null,
+
+) : AbstractModel

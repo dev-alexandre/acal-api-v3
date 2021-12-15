@@ -2,7 +2,13 @@ package br.com.acalv3.domain.gateway
 
 import br.com.acalv3.domain.model.AbstractModel
 import br.com.acalv3.domain.service.AppService
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RestController
 
 @RestController
 abstract class AppGateway<U: AbstractModel> (
@@ -21,6 +27,10 @@ abstract class AppGateway<U: AbstractModel> (
     @GetMapping("{id}")
     fun get(@PathVariable id: Long): U =
         appService.get(id)
+
+    @GetMapping("count")
+    fun count(): Long =
+        appService.count()
 
     @GetMapping
     fun getAll(): List<U> =
