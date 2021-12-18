@@ -21,6 +21,8 @@ class UserModel(
 
     val userName: String = "",
 
+    override val name: String = "",
+
     val password: String = "",
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)

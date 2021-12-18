@@ -7,6 +7,7 @@ import br.com.acalv3.domain.model.v3.AddressModel
 import br.com.acalv3.domain.service.v3.AddressService
 import br.com.acalv3.integration.AbstractGatewayTest
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -43,6 +44,7 @@ internal class AddressGatewayTest: AbstractGatewayTest<AddressModel>() {
 	override fun getModel() = AddressDataBuilder.build{}
 	override fun getClassType() = AddressModel::class.java
 
+	@Test
 	fun `Should throws when save without name`(){
 		val addressWithoutName = AddressDataBuilder.build {
 			name = null
@@ -63,6 +65,7 @@ internal class AddressGatewayTest: AbstractGatewayTest<AddressModel>() {
 		Assertions.assertEquals(responseAsMap["message"], "Campo nulo")
 	}
 
+	@Test
 	fun `Should response with 400 bad request when save without type`(){
 		val addressWithoutName = AddressDataBuilder.build {
 			addressType = null

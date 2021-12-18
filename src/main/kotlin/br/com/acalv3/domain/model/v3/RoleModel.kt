@@ -11,6 +11,8 @@ data class RoleModel (
 
     private val authority: String,
 
+    override val name: String = "",
+
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     override var createdAt: LocalDateTime? = null,

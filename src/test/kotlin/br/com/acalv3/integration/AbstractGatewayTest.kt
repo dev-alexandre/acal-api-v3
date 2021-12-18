@@ -4,8 +4,10 @@ import br.com.acalv3.domain.model.AbstractModel
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.jupiter.api.Test
+import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.web.servlet.MockMvc
 
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 abstract class AbstractGatewayTest  <U: AbstractModel>: AbstractTest<U>()  {
 
 	abstract override fun getMockMvcInstance() : MockMvc
@@ -51,71 +53,17 @@ abstract class AbstractGatewayTest  <U: AbstractModel>: AbstractTest<U>()  {
 
 	@Test
 	fun `Should get by Name`() {
-		val saved = save()
-
-
-
-		/*
-		val result = getMockMvcInstance().perform(
-			MockMvcRequestBuilders
-				.get("${getUrl()}/name/${getModelName()}")
-				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON)
-		)
-			.andExpect(status().isOk)
-			.andReturn()
-
-		castToAbstractModel(result = result)
-		 */
+		save()
+		val getterByName = getterByName()
+		assertNotNull(getterByName.id)
+		assertNotNull(getterByName.createdAt)
+		assertNotNull(getterByName.lastModifiedAt)
 	}
 
 
-
-	/*
-	fun `Should throws when abstractModel is duplicate `() {
-
-		val andReturn = getMockMvcInstance().perform(
-			MockMvcRequestBuilders
-				.put(getUrl())
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(getModel()))
-		)
-		.andDo(print())
-	}
-
-
-
-
-
+	@Test
 	fun `Should delete`() {
-		getMockMvcInstance().perform(
-			MockMvcRequestBuilders
-				.delete("${getUrl()}/1")
-				.contentType(MediaType.APPLICATION_JSON)
-		)
-		.andExpect(status().isOk)
-		.andReturn()
+		val saved = save()
+		delete(saved)
 	}
-
-	private fun getByName(): AbstractModel {
-		val byName = getMockMvcInstance().perform(
-			MockMvcRequestBuilders
-				.get("${getUrl()}/name/${getModelName()}")
-				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON)
-		)
-		.andReturn()
-
-		return objectMapper.readValue(byName.response.contentAsString, getClassType())
-	}
-
-
-	private fun validate(model: U): U{
-		assertNotNull(model.id)
-		assertNotNull(model.createdAt)
-		assertNotNull(model.lastModifiedAt)
-		return model
-	}
-	*/
-
 }

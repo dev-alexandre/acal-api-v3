@@ -8,6 +8,8 @@ import br.com.acalv3.domain.model.v3.GroupModel
 
 class ContractDataBuilder : AbstractDataBuilder<ContractModel>() {
 
+	override var name: String? = "2020001"
+
 	var customer: CustomerModel? = CustomerDataBuilder.build { }
 	var nameBusiness: String? = ""
 	var group: GroupModel? = GroupDataBuilder.build { }

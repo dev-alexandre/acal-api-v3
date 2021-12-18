@@ -23,7 +23,7 @@ class GroupModel (
     override var id: Long? = null,
 
     @Column(nullable = false, unique = true)
-    var name: String? = "",
+    override var name: String? = "",
 
     @Column(nullable = false)
     var monetaryValue: Double? = 0.00,

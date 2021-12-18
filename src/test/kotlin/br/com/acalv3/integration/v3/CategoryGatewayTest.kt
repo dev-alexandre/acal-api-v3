@@ -7,7 +7,6 @@ import br.com.acalv3.domain.model.v3.CategoryModel
 import br.com.acalv3.domain.service.v3.CategoryService
 import br.com.acalv3.integration.AbstractGatewayTest
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -41,12 +40,9 @@ internal class CategoryGatewayTest : AbstractGatewayTest<CategoryModel>() {
 		return mckMvc
 	}
 
-	override fun getModel() =
-		CategoryDataBuilder.build{}
-
+	override fun getModel() = CategoryDataBuilder.build{}
 	override fun getClassType() = CategoryModel::class.java
 
-	@Test
 	fun `Should response with 400 bad request when save without name`(){
 
 		val addressTypeWithoutName = CategoryDataBuilder.build {

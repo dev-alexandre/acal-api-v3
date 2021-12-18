@@ -26,7 +26,7 @@ class AddressModel (
     var addressType: AddressTypeModel? = null,
 
 	@Column(nullable = false, unique = true)
-    var name: String? = "",
+    override var name: String? = "",
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

@@ -24,7 +24,7 @@ class CustomerModel (
     override var id: Long? = null,
 
     @Column(nullable = false)
-    var name: String? = "",
+    override var name: String? = "",
 
     @Column(nullable = false, unique = true)
     var document: String? = "",

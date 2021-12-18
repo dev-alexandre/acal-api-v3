@@ -21,7 +21,7 @@ class ContractModel (
     )
     override var id: Long? = null,
 
-	var name: String? = "",
+	override var name: String? = "",
 
 	var nameBusiness: String? = "",
 

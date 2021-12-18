@@ -25,6 +25,8 @@ class PlaceModel(
 	@ManyToOne(cascade = [CascadeType.MERGE])
     var address: AddressModel? = null,
 
+	override val name: String = "",
+
 	@Column(nullable = false)
 	var number: String? = "",
 

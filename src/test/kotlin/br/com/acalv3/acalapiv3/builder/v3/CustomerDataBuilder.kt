@@ -6,6 +6,8 @@ import java.time.LocalDate
 
 class CustomerDataBuilder : AbstractDataBuilder<CustomerModel>() {
 
+	override var name: String? = "Alexandre"
+
 	var businessName: String? = "NCC enterprise"
 	var document: String? = "03396885562"
 	var phoneNumber: String? = "71988872479"

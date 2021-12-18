@@ -60,6 +60,19 @@ abstract class AbstractTest<U: AbstractModel>{
 		return castToAbstractModel(result = result)
 	}
 
+	fun getterByName(): U {
+		val result = getMockMvcInstance().perform(
+			MockMvcRequestBuilders
+				.get(getUrl()+"/name/"+ getModel().name )
+				.contentType(MediaType.APPLICATION_JSON)
+		)
+		.andDo(print())
+		.andExpect(status().isOk)
+		.andReturn()
+
+		return castToAbstractModel(result = result)
+	}
+
 	fun count(): String {
 		val result = getMockMvcInstance().perform(
 			MockMvcRequestBuilders
@@ -72,6 +85,18 @@ abstract class AbstractTest<U: AbstractModel>{
 
 		return result.response.contentAsString
 	}
+
+	fun delete(u: AbstractModel) {
+		getMockMvcInstance().perform(
+			MockMvcRequestBuilders
+				.delete("${getUrl()}/${u.id}")
+				.contentType(MediaType.APPLICATION_JSON)
+		)
+		.andDo(print())
+		.andExpect(status().isOk)
+		.andReturn()
+	}
+
 
 	fun castResponseToMap(value: String): Map<String, String> {
 		return ObjectMapper().readerFor(MutableMap::class.java).readValue(value)

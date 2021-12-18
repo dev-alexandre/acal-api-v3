@@ -5,6 +5,8 @@ import br.com.acalv3.domain.model.v3.AddressTypeModel
 
 class AddressTypeDataBuilder: AbstractDataBuilder<AddressTypeModel>() {
 
+	override var name: String? = "Avenida"
+
 	override fun build() = AddressTypeModel(
 		id = id,
 		name = name,
