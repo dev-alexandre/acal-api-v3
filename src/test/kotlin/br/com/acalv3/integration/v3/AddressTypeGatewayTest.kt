@@ -7,19 +7,14 @@ import br.com.acalv3.domain.model.v3.AddressTypeModel
 import br.com.acalv3.domain.service.v3.AddressTypeService
 import br.com.acalv3.integration.AbstractGatewayTest
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
-import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 
-@RunWith(SpringRunner::class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 internal class AddressTypeGatewayTest: AbstractGatewayTest<AddressTypeModel>() {
 
 	override fun getUrl() = "/address-type"

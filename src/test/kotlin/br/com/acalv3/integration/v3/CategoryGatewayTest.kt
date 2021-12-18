@@ -7,19 +7,14 @@ import br.com.acalv3.domain.model.v3.CategoryModel
 import br.com.acalv3.domain.service.v3.CategoryService
 import br.com.acalv3.integration.AbstractGatewayTest
 import org.junit.jupiter.api.Assertions
-import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
-import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 
-@RunWith(SpringRunner::class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 internal class CategoryGatewayTest : AbstractGatewayTest<CategoryModel>() {
 
 	override fun getUrl() = "/category"
