@@ -12,7 +12,7 @@ import javax.persistence.Id
 import javax.persistence.ManyToOne
 
 @Entity(name = "contract_model")
-data class ContractModel (
+class ContractModel (
 
 	@Id
     @GeneratedValue(
@@ -25,17 +25,17 @@ data class ContractModel (
 
 	var nameBusiness: String? = "",
 
-	@ManyToOne(cascade = [CascadeType.DETACH])
+	@ManyToOne(cascade = [CascadeType.PERSIST])
 	var group: GroupModel? = null,
 
-	@ManyToOne(cascade = [CascadeType.DETACH])
-    var addressResidence: AddressTypeModel? = null,
+	@ManyToOne(cascade = [CascadeType.PERSIST])
+    var addressResidence: AddressModel? = null,
 
-	@ManyToOne(cascade = [CascadeType.DETACH])
-	var addressMail: AddressTypeModel? = null,
+	@ManyToOne(cascade = [CascadeType.PERSIST])
+	var addressMail: AddressModel? = null,
 
-	@ManyToOne(cascade = [CascadeType.DETACH])
-	var user: UserModel? = null,
+	@ManyToOne(cascade = [CascadeType.PERSIST])
+	var customer: CustomerModel? = null,
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

@@ -1,16 +1,13 @@
-package br.com.acalv3.acalapiv3.builder
+package br.com.acalv3.acalapiv3.builder.v3
 
+import br.com.acalv3.acalapiv3.builder.AbstractDataBuilder
 import br.com.acalv3.domain.model.v3.CategoryModel
-import java.time.LocalDateTime
 
-class CategoryDataBuilder {
+class CategoryDataBuilder : AbstractDataBuilder<CategoryModel>() {
 
-	var id: Long? = 1
-	var name: String = "Socio Fundador"
-	var createdAt: LocalDateTime? = LocalDateTime.now()
-	var lastModifiedAt: LocalDateTime? = LocalDateTime.now()
+	override var name: String? = "Socio Fundador"
 
-	private fun build() = CategoryModel(
+	override fun build() = CategoryModel(
 		id = id,
 		name = name,
 		createdAt = createdAt,

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat
 import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalDateTime
 import javax.persistence.CascadeType
+import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
@@ -12,7 +13,7 @@ import javax.persistence.Id
 import javax.persistence.ManyToOne
 
 @Entity(name = "place_model")
-data class PlaceModel (
+class PlaceModel(
 
 	@Id
     @GeneratedValue(
@@ -24,6 +25,7 @@ data class PlaceModel (
 	@ManyToOne(cascade = [CascadeType.MERGE])
     var address: AddressModel? = null,
 
+	@Column(nullable = false)
 	var number: String? = "",
 
 	var letter: String? = "",

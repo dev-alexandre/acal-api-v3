@@ -11,7 +11,7 @@ import javax.persistence.GenerationType
 import javax.persistence.Id
 
 @Entity(name = "category_model")
-data class CategoryModel (
+class CategoryModel (
 
     @Id
     @GeneratedValue(
@@ -20,7 +20,7 @@ data class CategoryModel (
     )
     override var id: Long? = null,
 
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     var name: String? = "",
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)

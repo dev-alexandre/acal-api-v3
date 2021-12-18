@@ -13,7 +13,7 @@ import javax.persistence.Id
 import javax.persistence.ManyToOne
 
 @Entity(name = "address_model")
-data class AddressModel (
+class AddressModel (
 
 	@Id
     @GeneratedValue(
@@ -22,10 +22,10 @@ data class AddressModel (
     )
     override var id: Long? = null,
 
-	@ManyToOne(cascade = [CascadeType.PERSIST])
+	@ManyToOne(optional = false, cascade = [CascadeType.PERSIST])
     var addressType: AddressTypeModel? = null,
 
-	@Column(unique = true)
+	@Column(nullable = false, unique = true)
     var name: String? = "",
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)

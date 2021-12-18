@@ -1,9 +1,11 @@
 package br.com.acalv3.domain.service
 
 import br.com.acalv3.domain.exception.DuplicatedFieldException
+import br.com.acalv3.domain.exception.RequiredFieldException
 import br.com.acalv3.domain.model.AbstractModel
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.data.jpa.repository.JpaRepository
 import java.time.LocalDateTime
 
@@ -25,14 +27,20 @@ abstract class AppService<U: AbstractModel>(
         save(u)
 
     fun save(u: U) : U {
-        logger.info("save by id ${u.id}")
 
         valid(u)
         prepareForSave(u)
 
         try{
+
             return appRepository.save(u)
+        } catch (ex: DataIntegrityViolationException){
+
+            logger.info("Campo nulo", ex)
+            throw RequiredFieldException("Campo nulo")
         } catch (ex: Exception){
+
+            logger.info("Duplicated", ex)
             throw DuplicatedFieldException("Duplicated")
         }
     }

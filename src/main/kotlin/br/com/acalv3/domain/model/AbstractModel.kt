@@ -5,9 +5,7 @@ import java.time.LocalDateTime
 interface AbstractModel {
 
     var id: Long?
-
     var createdAt: LocalDateTime?
-
     var lastModifiedAt: LocalDateTime?
 
 }

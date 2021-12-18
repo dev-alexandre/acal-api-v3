@@ -10,7 +10,7 @@ import javax.persistence.GenerationType
 import javax.persistence.Id
 
 @Entity(name = "user_model")
-data class UserModel(
+class UserModel(
 
     @Id
     @GeneratedValue(

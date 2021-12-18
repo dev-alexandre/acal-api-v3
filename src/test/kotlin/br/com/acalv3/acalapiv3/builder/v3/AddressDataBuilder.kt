@@ -1,15 +1,15 @@
-package br.com.acalv3.acalapiv3.builder
+package br.com.acalv3.acalapiv3.builder.v3
 
+import br.com.acalv3.acalapiv3.builder.AbstractDataBuilder
 import br.com.acalv3.domain.model.v3.AddressModel
 import br.com.acalv3.domain.model.v3.AddressTypeModel
 
-class AddressDataBuilder {
+class AddressDataBuilder: AbstractDataBuilder<AddressModel>() {
 
-	var id: Long? = 1
+	override var name: String? = "Fernando Daltro"
 	var addressType: AddressTypeModel? = AddressTypeDataBuilder.build()
-	var name: String = "Fernando Daltro"
 
-	private fun build() = AddressModel(
+	override fun build() = AddressModel(
 		id = id,
 		addressType = addressType,
 		name = name,

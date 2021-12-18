@@ -1,6 +1,6 @@
 package br.com.acalv3.domain.service
 
-import br.com.acalv3.acalapiv3.builder.AddressTypeDataBuilder
+import br.com.acalv3.acalapiv3.builder.v3.AddressTypeDataBuilder
 import br.com.acalv3.domain.repository.v3.AddressTypeRepository
 import br.com.acalv3.domain.service.v3.AddressTypeService
 import io.mockk.MockKAnnotations

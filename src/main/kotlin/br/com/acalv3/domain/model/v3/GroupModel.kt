@@ -13,7 +13,7 @@ import javax.persistence.Id
 import javax.persistence.ManyToOne
 
 @Entity(name = "group_model")
-data class GroupModel (
+class GroupModel (
 
     @Id
     @GeneratedValue(
@@ -22,12 +22,13 @@ data class GroupModel (
     )
     override var id: Long? = null,
 
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     var name: String? = "",
 
+    @Column(nullable = false)
     var monetaryValue: Double? = 0.00,
 
-    @ManyToOne(cascade = [CascadeType.MERGE])
+    @ManyToOne(optional = false, cascade = [CascadeType.PERSIST])
     var category: CategoryModel? = null,
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
@@ -38,4 +39,4 @@ data class GroupModel (
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     override var lastModifiedAt: LocalDateTime? = null,
 
-    ) : AbstractModel
+) : AbstractModel

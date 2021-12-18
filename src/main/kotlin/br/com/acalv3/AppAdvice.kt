@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import java.time.LocalDateTime
 
 @ControllerAdvice
-class AdviceController {
+class AppAdvice {
 
 	fun getBody(exception: Exception): Map<String, Any?>? {
 		val body: MutableMap<String, Any?> = LinkedHashMap()

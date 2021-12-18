@@ -11,7 +11,7 @@ import javax.persistence.GenerationType
 import javax.persistence.Id
 
 @Entity(name = "address_type_model")
-data class AddressTypeModel (
+class AddressTypeModel (
 
     @Id
     @GeneratedValue(
@@ -20,7 +20,7 @@ data class AddressTypeModel (
     )
     override var id: Long? = null,
 
-    @Column(unique = true, name = "uq_address_name")
+    @Column(nullable = false, unique = true, name = "uq_address_name")
     var name: String? = "",
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
