@@ -40,16 +40,6 @@ internal class GroupGatewayTest : AbstractGatewayTest<GroupModel>() {
 	override fun getClassType() = GroupModel::class.java
 
 	@Test
-	fun `Should response with 400 bad request when save without name`(){
-
-		val response = validate(GroupDataBuilder.build {
-			name = null
-		})
-
-		Assertions.assertEquals(response["message"], "Campo nulo")
-	}
-
-	@Test
 	fun `Should response with 400 bad request when save without monetaryValue`(){
 
 		val response = validate(GroupDataBuilder.build {

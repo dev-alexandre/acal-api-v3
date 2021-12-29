@@ -25,7 +25,7 @@ class PlaceModel(
 	@ManyToOne(cascade = [CascadeType.MERGE])
     var address: AddressModel? = null,
 
-	override val name: String = "",
+	override var name: String? = "",
 
 	@Column(nullable = false)
 	var number: String? = "",
@@ -40,4 +40,4 @@ class PlaceModel(
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	override var lastModifiedAt: LocalDateTime? = null,
 
-) : AbstractModel
+	) : AbstractModel

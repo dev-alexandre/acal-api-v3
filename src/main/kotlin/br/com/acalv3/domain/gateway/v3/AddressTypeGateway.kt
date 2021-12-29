@@ -9,5 +9,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("address-type")
 class AddressTypeGateway(
-    service: AddressTypeService
-): AppGateway<AddressTypeModel>(service)
+    val service: AddressTypeService
+): AppGateway<AddressTypeModel>(service)  {
+
+}

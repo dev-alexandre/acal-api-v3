@@ -21,7 +21,7 @@ class UserModel(
 
     val userName: String = "",
 
-    override val name: String = "",
+    override var name: String? = "",
 
     val password: String = "",
 

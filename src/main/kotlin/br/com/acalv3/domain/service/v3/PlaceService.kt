@@ -4,7 +4,6 @@ import br.com.acalv3.domain.model.v3.PlaceModel
 import br.com.acalv3.domain.repository.v3.PlaceRepository
 import br.com.acalv3.domain.service.AppService
 import org.springframework.stereotype.Service
-import java.lang.RuntimeException
 
 @Service
 class PlaceService(

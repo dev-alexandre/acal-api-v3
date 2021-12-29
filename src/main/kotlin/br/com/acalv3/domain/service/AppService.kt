@@ -1,11 +1,13 @@
 package br.com.acalv3.domain.service
 
+import br.com.acalv3.domain.dto.FilterDTO
 import br.com.acalv3.domain.exception.DuplicatedFieldException
 import br.com.acalv3.domain.exception.RequiredFieldException
 import br.com.acalv3.domain.model.AbstractModel
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.dao.DataIntegrityViolationException
+import org.springframework.data.domain.Page
 import org.springframework.data.jpa.repository.JpaRepository
 import java.time.LocalDateTime
 
@@ -35,7 +37,6 @@ abstract class AppService<U: AbstractModel>(
 
             return appRepository.save(u)
         } catch (ex: DataIntegrityViolationException){
-
             logger.info("Campo nulo", ex)
             throw RequiredFieldException("Campo nulo")
         } catch (ex: Exception){
@@ -52,6 +53,10 @@ abstract class AppService<U: AbstractModel>(
 
     fun getAll(): List<U> =
         appRepository.findAll()
+
+    open fun pageable(filter: FilterDTO<U>): Page<U> {
+        throw RuntimeException("")
+    }
 
     fun count(): Long =
         appRepository.count()

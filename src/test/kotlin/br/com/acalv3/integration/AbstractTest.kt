@@ -34,6 +34,18 @@ abstract class AbstractTest<U: AbstractModel>{
 		return castToAbstractModel(result = result)
 	}
 
+	fun trySaveDuplicated(){
+		getMockMvcInstance().perform(
+			MockMvcRequestBuilders
+				.post(getUrl())
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(getModel()))
+		)
+		.andDo(print())
+		.andExpect(status().isBadRequest)
+		.andReturn()
+	}
+
 	fun update(model: U): U {
 		val result = getMockMvcInstance().perform(
 			MockMvcRequestBuilders

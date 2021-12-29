@@ -1,5 +1,6 @@
 package br.com.acalv3.domain.gateway
 
+import br.com.acalv3.domain.dto.FilterDTO
 import br.com.acalv3.domain.model.AbstractModel
 import br.com.acalv3.domain.service.AppService
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -39,6 +40,10 @@ abstract class AppGateway<U: AbstractModel> (
     @GetMapping("/name/{name}")
     fun getByName(@PathVariable name: String): U =
         appService.findByName(name)
+
+    @PostMapping("/pageable")
+    fun pageable(@RequestBody filter: FilterDTO<U>) =
+        appService.pageable(filter)
 
     @DeleteMapping("/{id}")
     fun delete(@PathVariable id: Long) =

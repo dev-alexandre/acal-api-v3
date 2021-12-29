@@ -3,12 +3,17 @@ package br.com.acalv3.integration
 import br.com.acalv3.domain.model.AbstractModel
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.runner.RunWith
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.http.MediaType
 import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @RunWith(SpringRunner::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -63,6 +68,27 @@ abstract class AbstractGatewayTest  <U: AbstractModel>: AbstractTest<U>()  {
 		assertNotNull(getterByName.id)
 		assertNotNull(getterByName.createdAt)
 		assertNotNull(getterByName.lastModifiedAt)
+	}
+
+	@Test
+	fun `Should response with 400 bad request when save without name`(){
+
+		val model = getModel()
+		model.name = null
+
+		val response = getMockMvcInstance().perform(
+			MockMvcRequestBuilders
+				.post(getUrl())
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(model))
+		)
+		.andDo(print())
+		.andExpect(status().isBadRequest)
+		.andReturn()
+
+		val responseAsMap = castResponseToMap(response.response.contentAsString)
+
+		Assertions.assertEquals(responseAsMap["message"], "Campo nulo")
 	}
 
 
