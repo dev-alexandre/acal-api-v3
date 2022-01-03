@@ -22,7 +22,7 @@ class AddressModel (
     )
     override var id: Long? = null,
 
-	@ManyToOne(optional = false, cascade = [CascadeType.PERSIST])
+	@ManyToOne(optional = false, cascade = [CascadeType.MERGE])
     var addressType: AddressTypeModel? = null,
 
 	@Column(nullable = false, unique = true)

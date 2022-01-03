@@ -8,6 +8,8 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.data.jpa.repository.JpaRepository
 import java.time.LocalDateTime
 
@@ -38,7 +40,7 @@ abstract class AppService<U: AbstractModel>(
             return appRepository.save(u)
         } catch (ex: DataIntegrityViolationException){
             logger.info("Campo nulo", ex)
-            throw RequiredFieldException("Campo nulo")
+            throw RequiredFieldException(ex, "Campo nulo")
         } catch (ex: Exception){
 
             logger.info("Duplicated", ex)
@@ -73,6 +75,33 @@ abstract class AppService<U: AbstractModel>(
 
         u.lastModifiedAt = LocalDateTime.now()
 
+    }
+
+    fun getPage(filter: FilterDTO<U>) : PageRequest {
+
+        return when (filter.sort){
+            null -> PageRequest.of(
+                filter.page.number,
+                filter.page.size,
+            )
+            else -> {
+                PageRequest.of(
+                    filter.page.number,
+                    filter.page.size,
+                    getOrderDirection(filter)
+                )
+            }
+        }
+
+    }
+
+    fun getOrderDirection(filter: FilterDTO<U>): Sort {
+
+        return when (filter.sort!!.asc) {
+            null -> { Sort.by(Sort.Direction.ASC, "name") }
+            true -> { Sort.by(Sort.Direction.ASC, filter.sort!!.value) }
+            false ->{ Sort.by(Sort.Direction.DESC, filter.sort!!.value )}
+        }
     }
 }
 
