@@ -6,8 +6,15 @@ interface AbstractModel {
 
     var id: Long?
     var name: String?
+
     var createdAt: LocalDateTime?
+    var createdBy: Long?
+
     var lastModifiedAt: LocalDateTime?
+
+    var deletedAt: LocalDateTime?
+    var deletedBy: Long?
+    var deleted: Boolean?
 
 }
 

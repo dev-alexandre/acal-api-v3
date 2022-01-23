@@ -17,8 +17,7 @@ class PlaceModel(
 
 	@Id
     @GeneratedValue(
-        strategy = GenerationType.SEQUENCE,
-        generator = "`seq_place`"
+	    strategy = GenerationType.IDENTITY,
     )
 	override var id: Long? = null,
 
@@ -40,4 +39,14 @@ class PlaceModel(
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	override var lastModifiedAt: LocalDateTime? = null,
 
-	) : AbstractModel
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	override var deletedAt: LocalDateTime? = null,
+
+	override var createdBy: Long? = null,
+
+	override var deletedBy: Long? = null,
+
+	override var deleted: Boolean? = false,
+
+) : AbstractModel

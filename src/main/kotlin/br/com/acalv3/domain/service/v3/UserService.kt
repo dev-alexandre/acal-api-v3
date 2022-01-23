@@ -6,7 +6,7 @@ import br.com.acalv3.domain.service.AppService
 
 class UserService (
     private val userRepository: UserRepository
-    ) : AppService<UserModel>(userRepository) {
+    ) : AppService<UserModel>(userRepository, userRepository) {
 
 	override fun findByName(name: String): UserModel =
 		userRepository.findByUserName(name)

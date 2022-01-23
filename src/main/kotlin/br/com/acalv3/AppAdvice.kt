@@ -1,5 +1,6 @@
 package br.com.acalv3
 
+import br.com.acalv3.domain.exception.DuplicatedFieldException
 import br.com.acalv3.domain.exception.RequiredFieldException
 import org.hibernate.exception.ConstraintViolationException
 import org.springframework.dao.EmptyResultDataAccessException
@@ -36,6 +37,13 @@ class AppAdvice {
 	}
 
 	@ExceptionHandler(value = [
+		DuplicatedFieldException::class,]
+	)
+	fun duplicatedData (ex: RuntimeException) = run {
+		ResponseEntity(getBody(ex),HttpStatus.BAD_REQUEST)
+	}
+
+	@ExceptionHandler(value = [
 		ConstraintViolationException::class,
 	])
 	fun e2 (ex: RuntimeException) = run {
@@ -45,10 +53,6 @@ class AppAdvice {
 		)
 	}
 
-	/*
-	*@TODO
-	*  melhorar isso aqui
-	* **/
 	@ExceptionHandler(value = [
 		RequiredFieldException::class
 	])

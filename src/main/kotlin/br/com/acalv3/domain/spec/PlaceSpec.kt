@@ -1,18 +1,18 @@
 package br.com.acalv3.domain.spec
 
-import br.com.acalv3.domain.model.v3.AddressModel
+import br.com.acalv3.domain.model.v3.PlaceModel
 import br.com.acalv3.domain.spec.v3.AbstractSpec
 import javax.persistence.criteria.CriteriaBuilder
 import javax.persistence.criteria.CriteriaQuery
 import javax.persistence.criteria.Predicate
 import javax.persistence.criteria.Root
 
-class AddressSpec(
-	override val model: AddressModel,
-): AbstractSpec<AddressModel>(model) {
+class PlaceSpec (
+	override var model: PlaceModel,
+): AbstractSpec<PlaceModel>(model) {
 
 	override fun toPredicate(
-		root: Root<AddressModel>,
+		root: Root<PlaceModel>,
 		cq: CriteriaQuery<*>,
 		cb: CriteriaBuilder
 	): Predicate? {
@@ -45,13 +45,35 @@ class AddressSpec(
 			cb = cb,
 			predicates = predicates,
 		)
+		if(model.address?.id != null ) {
 
-		if(model.addressType?.id != null ) {
 			with(predicates){
-					add(
-						cb.equal(
-							root.get<Int>("addressType").get<Int>("id"),
-							model.addressType?.id
+				add(
+					cb.equal(
+						root.get<Int>("address").get<Int>("id"),
+						model.address?.id
+					)
+				)
+			}
+		}
+
+		if(model.letter != null && !model.letter.isNullOrBlank()){
+			with(predicates){
+				add(
+					cb.equal(
+						root.get<String>("letter"),
+						model.letter
+					)
+				)
+			}
+		}
+
+		if(model.number != null && !model.number.isNullOrBlank()){
+			with(predicates){
+				add(
+					cb.equal(
+						root.get<String>("number"),
+						model.number
 					)
 				)
 			}
@@ -59,7 +81,4 @@ class AddressSpec(
 
 		return andTogether(predicates, cb)
 	}
-
-
-
 }

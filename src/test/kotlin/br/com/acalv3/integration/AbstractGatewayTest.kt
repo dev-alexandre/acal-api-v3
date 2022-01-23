@@ -3,6 +3,7 @@ package br.com.acalv3.integration
 import br.com.acalv3.domain.model.AbstractModel
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.runner.RunWith
@@ -26,12 +27,17 @@ abstract class AbstractGatewayTest  <U: AbstractModel>: AbstractTest<U>()  {
 	abstract override fun getClassType(): Class<U>
 
 	@Test
-	fun `Should Save and add return abstract fields`() {
+	fun `Should Save`() {
 		val saved = save()
 
-		assertNotNull(saved.id)
+		assertNotNull(saved.id )
+		assertNotNull(saved.name)
+
 		assertNotNull(saved.createdAt)
 		assertNotNull(saved.lastModifiedAt)
+		assertEquals(saved.deleted, false)
+		assertNull(saved.deletedAt)
+		assertNull(saved.deletedBy)
 	}
 
 	@Test
@@ -70,7 +76,6 @@ abstract class AbstractGatewayTest  <U: AbstractModel>: AbstractTest<U>()  {
 		assertNotNull(getterByName.lastModifiedAt)
 	}
 
-	@Test
 	fun `Should response with 400 bad request when save without name`(){
 
 		val model = getModel()
@@ -91,10 +96,10 @@ abstract class AbstractGatewayTest  <U: AbstractModel>: AbstractTest<U>()  {
 		Assertions.assertEquals(responseAsMap["message"], "Campo nulo")
 	}
 
-
 	@Test
 	fun `Should delete`() {
 		val saved = save()
 		delete(saved)
 	}
+
 }

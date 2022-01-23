@@ -17,26 +17,25 @@ class ContractModel (
 
 	@Id
     @GeneratedValue(
-        strategy = GenerationType.SEQUENCE,
-        generator = "`seq_contract`"
+	    strategy = GenerationType.IDENTITY,
     )
     override var id: Long? = null,
 
 	@Column(nullable = false, unique = true)
-	override var name: String? = "",
+	override var name: String? = null,
 
-	var nameBusiness: String? = "",
+	var nameBusiness: String? = null,
 
-	@ManyToOne(cascade = [CascadeType.PERSIST])
+	@ManyToOne(cascade = [CascadeType.DETACH])
 	var group: GroupModel? = null,
 
-	@ManyToOne(cascade = [CascadeType.PERSIST])
-    var addressResidence: AddressModel? = null,
+	@ManyToOne(cascade = [CascadeType.DETACH])
+    var placeResidence: PlaceModel? = null,
 
-	@ManyToOne(cascade = [CascadeType.PERSIST])
-	var addressMail: AddressModel? = null,
+	@ManyToOne(cascade = [CascadeType.DETACH])
+	var placeMail: PlaceModel? = null,
 
-	@ManyToOne(cascade = [CascadeType.PERSIST])
+	@ManyToOne(cascade = [CascadeType.DETACH])
 	var customer: CustomerModel? = null,
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
@@ -45,6 +44,15 @@ class ContractModel (
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	override var lastModifiedAt: LocalDateTime? = null
+	override var lastModifiedAt: LocalDateTime? = null,
 
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	override var deletedAt: LocalDateTime? = null,
+
+	override var createdBy: Long? = null,
+
+	override var deletedBy: Long? = null,
+
+	override var deleted: Boolean? = false,
 ) : AbstractModel

@@ -1,18 +1,19 @@
 package br.com.acalv3.domain.spec
 
-import br.com.acalv3.domain.model.v3.AddressModel
+import br.com.acalv3.domain.model.v3.CustomerModel
 import br.com.acalv3.domain.spec.v3.AbstractSpec
+import org.testng.util.Strings
 import javax.persistence.criteria.CriteriaBuilder
 import javax.persistence.criteria.CriteriaQuery
 import javax.persistence.criteria.Predicate
 import javax.persistence.criteria.Root
 
-class AddressSpec(
-	override val model: AddressModel,
-): AbstractSpec<AddressModel>(model) {
+class CustomerSpec (
+	override var model: CustomerModel,
+): AbstractSpec<CustomerModel>(model){
 
 	override fun toPredicate(
-		root: Root<AddressModel>,
+		root: Root<CustomerModel>,
 		cq: CriteriaQuery<*>,
 		cb: CriteriaBuilder
 	): Predicate? {
@@ -45,13 +46,26 @@ class AddressSpec(
 			cb = cb,
 			predicates = predicates,
 		)
+		if(model.birthDate != null ) {
+			val startingFrom = cb.greaterThanOrEqualTo(
+				root.get("birthDate"),
+				model.birthDate
+			)
 
-		if(model.addressType?.id != null ) {
+			val endingAt =cb.lessThanOrEqualTo(
+				root.get("birthDate"),
+				model.birthDate
+			)
+
+			predicates.add(cb.and(startingFrom, endingAt) )
+		}
+
+		if(Strings.isNotNullAndNotEmpty(model.document)){
 			with(predicates){
-					add(
-						cb.equal(
-							root.get<Int>("addressType").get<Int>("id"),
-							model.addressType?.id
+				add(
+					cb.like(
+						cb.lower(root.get("document")),
+						"%" + model.document?.lowercase() + "%"
 					)
 				)
 			}
@@ -59,7 +73,4 @@ class AddressSpec(
 
 		return andTogether(predicates, cb)
 	}
-
-
-
 }

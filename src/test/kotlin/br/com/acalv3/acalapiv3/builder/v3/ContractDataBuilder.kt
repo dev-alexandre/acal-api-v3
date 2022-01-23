@@ -1,20 +1,20 @@
 package br.com.acalv3.acalapiv3.builder.v3
 
 import br.com.acalv3.acalapiv3.builder.AbstractDataBuilder
-import br.com.acalv3.domain.model.v3.AddressModel
 import br.com.acalv3.domain.model.v3.ContractModel
 import br.com.acalv3.domain.model.v3.CustomerModel
 import br.com.acalv3.domain.model.v3.GroupModel
+import br.com.acalv3.domain.model.v3.PlaceModel
 
 class ContractDataBuilder : AbstractDataBuilder<ContractModel>() {
 
 	override var name: String? = "2020001"
 
 	var customer: CustomerModel? = CustomerDataBuilder.build { }
-	var nameBusiness: String? = ""
 	var group: GroupModel? = GroupDataBuilder.build { }
-	var addressResidence: AddressModel? = AddressDataBuilder.build { }
-	var addressMail: AddressModel? = AddressDataBuilder.build { }
+	var nameBusiness: String? = ""
+	var placeResidence: PlaceModel? = PlaceDataBuilder.build { }
+	var placeMail: PlaceModel? = PlaceDataBuilder.build { }
 
 	override fun build() = ContractModel(
 		id = id,
@@ -22,8 +22,8 @@ class ContractDataBuilder : AbstractDataBuilder<ContractModel>() {
 		nameBusiness = nameBusiness,
 		customer = customer,
 		group = group,
-		addressResidence = addressResidence,
-		addressMail = addressMail,
+		placeResidence = placeResidence,
+		placeMail = placeMail,
 		createdAt = createdAt,
 		lastModifiedAt = lastModifiedAt,
 	)

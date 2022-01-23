@@ -16,17 +16,14 @@ import javax.persistence.ManyToOne
 class AddressModel (
 
 	@Id
-    @GeneratedValue(
-        strategy = GenerationType.SEQUENCE,
-        generator = "`seq_address`"
-    )
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     override var id: Long? = null,
 
 	@ManyToOne(optional = false, cascade = [CascadeType.MERGE])
     var addressType: AddressTypeModel? = null,
 
-	@Column(nullable = false, unique = true)
-    override var name: String? = "",
+	@Column(nullable = false)
+    override var name: String? = null,
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -34,6 +31,16 @@ class AddressModel (
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	override var lastModifiedAt: LocalDateTime? = null
+	override var lastModifiedAt: LocalDateTime? = null,
+
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	override var deletedAt: LocalDateTime? = null,
+
+	override var createdBy: Long? = null,
+
+	override var deletedBy: Long? = null,
+
+	override var deleted: Boolean? = false,
 
 ) : AbstractModel

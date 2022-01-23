@@ -7,3 +7,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 interface AddressRepository : JpaRepository<AddressModel, Long>, JpaSpecificationExecutor<AddressModel> {
     fun findByName(name: String): AddressModel
 }
+
+

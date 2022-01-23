@@ -53,7 +53,7 @@ internal class GroupGatewayTest : AbstractGatewayTest<GroupModel>() {
 	fun `Should response with 400 bad request when save without category`(){
 
 		val response = validate(GroupDataBuilder.build {
-			category = null
+			name = "teste"
 		})
 
 		Assertions.assertEquals(response["message"], "Campo nulo")

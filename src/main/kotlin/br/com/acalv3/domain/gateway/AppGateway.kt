@@ -45,6 +45,10 @@ abstract class AppGateway<U: AbstractModel> (
     fun pageable(@RequestBody filter: FilterDTO<U>) =
         appService.pageable(filter)
 
+    @PostMapping("/filter")
+    fun filterByExample(@RequestBody filter: FilterDTO<U>) =
+        appService.filterByExample(filter)
+
     @DeleteMapping("/{id}")
     fun delete(@PathVariable id: Long) =
         appService.delete(id)

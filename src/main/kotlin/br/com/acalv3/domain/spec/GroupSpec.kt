@@ -1,18 +1,19 @@
 package br.com.acalv3.domain.spec
 
-import br.com.acalv3.domain.model.v3.AddressModel
+import br.com.acalv3.domain.model.v3.GroupModel
 import br.com.acalv3.domain.spec.v3.AbstractSpec
 import javax.persistence.criteria.CriteriaBuilder
 import javax.persistence.criteria.CriteriaQuery
 import javax.persistence.criteria.Predicate
 import javax.persistence.criteria.Root
 
-class AddressSpec(
-	override val model: AddressModel,
-): AbstractSpec<AddressModel>(model) {
+
+class GroupSpec(
+	override val model: GroupModel,
+): AbstractSpec<GroupModel>(model) {
 
 	override fun toPredicate(
-		root: Root<AddressModel>,
+		root: Root<GroupModel>,
 		cq: CriteriaQuery<*>,
 		cb: CriteriaBuilder
 	): Predicate? {
@@ -45,13 +46,23 @@ class AddressSpec(
 			cb = cb,
 			predicates = predicates,
 		)
+		if(model.category != null ) {
 
-		if(model.addressType?.id != null ) {
 			with(predicates){
-					add(
-						cb.equal(
-							root.get<Int>("addressType").get<Int>("id"),
-							model.addressType?.id
+				add(
+					cb.equal(
+						root.get<Int>("category"), model.category
+					)
+				)
+			}
+		}
+
+		if(model.monetaryValue != null ) {
+
+			with(predicates){
+				add(
+					cb.equal(
+						root.get<Double>("monetaryValue"), model.monetaryValue
 					)
 				)
 			}
@@ -59,7 +70,5 @@ class AddressSpec(
 
 		return andTogether(predicates, cb)
 	}
-
-
 
 }

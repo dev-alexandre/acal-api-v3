@@ -34,8 +34,8 @@ internal class ContractGatewayTest: AbstractGatewayTest<ContractModel>() {
 		ContractDataBuilder.build{
 			customer = null
 			group = null
-			addressResidence = null
-			addressMail = null
+			placeResidence = null
+			placeMail = null
 		}
 
 	override fun getClassType() = ContractModel::class.java

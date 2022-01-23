@@ -4,6 +4,7 @@ import br.com.acalv3.domain.dto.FilterDTO
 import br.com.acalv3.domain.exception.DuplicatedFieldException
 import br.com.acalv3.domain.exception.RequiredFieldException
 import br.com.acalv3.domain.model.AbstractModel
+import br.com.acalv3.domain.spec.v3.AbstractSpec
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.dao.DataIntegrityViolationException
@@ -11,10 +12,11 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import java.time.LocalDateTime
-
 abstract class AppService<U: AbstractModel>(
-    private val appRepository: JpaRepository<U, Long>
+    private val appRepository : JpaRepository<U, Long>,
+    private val appSpec: JpaSpecificationExecutor<U>,
 ) {
     private var logger: Logger = LoggerFactory.getLogger(AppService::class.java)
 
@@ -24,20 +26,43 @@ abstract class AppService<U: AbstractModel>(
         if(!appRepository.existsById(id)){
             throw NoSuchElementException("Entity not found")
         }
-        appRepository.deleteById(id)
+
+        try{
+            appRepository.deleteById(id)
+        } catch (ex: DataIntegrityViolationException) {
+            logicalDelete(id)
+        }
     }
 
-    fun update(u: U) : U =
-        save(u)
+    private fun logicalDelete(id: Long){
+        val deleted = appRepository.getById(id)
+        deleted.deletedAt = LocalDateTime.now()
+        deleted.deleted = true
 
-    fun save(u: U) : U {
+        appRepository.save(deleted)
+    }
 
-        valid(u)
+    fun update(u: U) : U = run {
+
+        validEdit(u)
         prepareForSave(u)
+        saveCommit(u)
+    }
+
+
+    fun save(u: U) : U = run {
+        validSave(u)
+        prepareForSave(u)
+
+        saveCommit(u)
+    }
+
+    private fun saveCommit(u: U): U{
 
         try{
 
             return appRepository.save(u)
+
         } catch (ex: DataIntegrityViolationException){
             logger.info("Campo nulo", ex)
             throw RequiredFieldException(ex, "Campo nulo")
@@ -56,8 +81,19 @@ abstract class AppService<U: AbstractModel>(
     fun getAll(): List<U> =
         appRepository.findAll()
 
+    fun filterByExample(filter: FilterDTO<U>): List<U> {
+
+        val sort = Sort.by(Sort.Direction.ASC, "name")
+        val spec = AbstractSpec<U>(filter.model)
+
+        return appSpec.findAll(spec, sort)
+    }
+
     open fun pageable(filter: FilterDTO<U>): Page<U> {
-        throw RuntimeException("")
+        return appSpec.findAll(
+            AbstractSpec<U>(filter.model),
+                getPage(filter)
+            )
     }
 
     fun count(): Long =
@@ -65,7 +101,8 @@ abstract class AppService<U: AbstractModel>(
 
     abstract fun findByName(name: String): U
 
-    open fun valid(u: U) = Unit
+    open fun validSave(u: U) = Unit
+    open fun validEdit(u: U) = Unit
 
     open fun prepareForSave(u: U) {
 
@@ -74,7 +111,6 @@ abstract class AppService<U: AbstractModel>(
         }
 
         u.lastModifiedAt = LocalDateTime.now()
-
     }
 
     fun getPage(filter: FilterDTO<U>) : PageRequest {
@@ -95,7 +131,8 @@ abstract class AppService<U: AbstractModel>(
 
     }
 
-    fun getOrderDirection(filter: FilterDTO<U>): Sort {
+
+    private fun getOrderDirection(filter: FilterDTO<U>): Sort {
 
         return when (filter.sort!!.asc) {
             null -> { Sort.by(Sort.Direction.ASC, "name") }
@@ -104,4 +141,5 @@ abstract class AppService<U: AbstractModel>(
         }
     }
 }
+
 
