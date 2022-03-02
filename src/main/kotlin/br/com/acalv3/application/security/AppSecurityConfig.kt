@@ -16,9 +16,6 @@ import org.springframework.security.web.access.AccessDeniedHandler
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher
 
-
-
-
 @Configuration
 @EnableWebSecurity
 class AppSecurityConfig(
