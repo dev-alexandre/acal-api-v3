@@ -93,6 +93,33 @@ open class AbstractSpec<T>(
 		}
 	}
 
+	fun deleted(
+		deleted: Boolean?,
+		root: Root<*>,
+		cb: CriteriaBuilder,
+		predicates: MutableList<Predicate>,
+	) {
+
+		when(deleted){
+			false, true -> {
+				with(predicates){
+					add(
+						cb.equal(root.get<Boolean>("name"), deleted
+						)
+					)
+				}
+			}
+			null -> {
+				with(predicates){
+					add(
+						cb.equal(root.get<Boolean>("name"), false
+						)
+					)
+				}
+			}
+		}
+	}
+
 	fun createAtDateTime(
 		date: LocalDateTime?,
 		root: Root<*>,
@@ -136,7 +163,6 @@ open class AbstractSpec<T>(
 			)
 
 			predicates.add(cb.and(startingFrom, endingAt) )
-
 		}
 	}
 

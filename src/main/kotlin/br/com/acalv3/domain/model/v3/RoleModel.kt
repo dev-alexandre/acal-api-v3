@@ -3,6 +3,7 @@ package br.com.acalv3.domain.model.v3
 import br.com.acalv3.domain.model.AbstractModel
 import com.fasterxml.jackson.annotation.JsonFormat
 import org.springframework.format.annotation.DateTimeFormat
+import org.springframework.security.core.GrantedAuthority
 import java.time.LocalDateTime
 
 data class RoleModel (
@@ -31,4 +32,9 @@ data class RoleModel (
 
     override var deleted: Boolean? = false,
 
-) : AbstractModel
+) : AbstractModel, GrantedAuthority {
+
+    override fun getAuthority(): String {
+        return name.orEmpty()
+    }
+}

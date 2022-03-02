@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 
 interface UserRepository: JpaRepository<UserModel, Long>, JpaSpecificationExecutor<UserModel> {
-	fun findByUserName(name: String): UserModel
+	fun findByUsername(username: String): UserModel?
 }

@@ -6,7 +6,6 @@ plugins {
 	id("org.jetbrains.kotlin.plugin.noarg") version "1.6.0"
 	kotlin("plugin.spring") version "1.6.0"
 	kotlin("jvm") version "1.6.0"
-
 }
 
 buildscript {
@@ -29,7 +28,9 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-rest")
 	implementation ("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
+	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.testng:testng:7.1.0")
+	implementation("io.jsonwebtoken:jjwt:0.9.1")
 
 	testImplementation("org.junit.jupiter:junit-jupiter-api")
 	testImplementation("org.junit.jupiter:junit-jupiter-engine")
@@ -43,6 +44,9 @@ dependencies {
 		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
 		exclude(module = "mockito-core")
 	}
+	testImplementation("org.springframework.security:spring-security-test")
+
+
 
 	implementation("junit:junit:4.13.1")
     runtimeOnly ("org.postgresql:postgresql")

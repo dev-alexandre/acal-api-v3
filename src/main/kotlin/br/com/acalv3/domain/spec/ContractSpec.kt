@@ -49,22 +49,71 @@ class ContractSpec (
 				with(predicates) {
 					add(
 						cb.like(
-							cb.lower(root.get<Int>("customer").get("name"))							,
+							cb.lower(root.get<Int>("customer").get("name")),
 							"%" + model.customer?.name?.lowercase() + "%"
 						)
 					)
 				}
 			}
 
-			if(model.placeResidence !== null) {
+			if (Strings.isNotNullAndNotEmpty(model.customer?.document)) {
 				with(predicates) {
 					add(
-						cb.equal(
-							root.get<Int>("placeResidence").get<Int>("id"),
-							model.placeResidence?.id,
+						cb.like(
+							root.get<Int>("customer").get("document"),
+							model.customer?.document
 						)
 					)
 				}
+			}
+
+			if(model.group?.monetaryValue !== null){
+				with(predicates) {
+					add(
+						cb.equal(
+							root.get<Int>("group").get<Double>("monetaryValue"),
+							model.group?.monetaryValue
+						)
+					)
+				}
+			}
+
+			if (model.placeResidence !== null ) {
+
+				if (model.placeResidence?.address?.id !== null ) {
+					with(predicates) {
+						add(
+							cb.equal(
+								root.get<Int>("placeResidence").get<Int>("address").get<Int>("id"),
+								model.placeResidence?.address?.id,
+							)
+						)
+					}
+				}
+
+				if(Strings.isNotNullAndNotEmpty(model.placeResidence?.number)) {
+					with(predicates) {
+						add(
+							cb.equal(
+								root.get<Int>("placeResidence").get<String>("number"),
+								model.placeResidence?.number,
+							)
+						)
+					}
+				}
+
+				if(Strings.isNotNullAndNotEmpty(model.placeResidence?.letter)) {
+					with(predicates) {
+						add(
+							cb.equal(
+								root.get<Int>("placeResidence").get<String>("letter"),
+								model.placeResidence?.letter,
+							)
+						)
+					}
+				}
+
+
 			}
 
 		return andTogether(predicates, cb)

@@ -3,14 +3,16 @@ package br.com.acalv3.domain.model.v3
 import br.com.acalv3.domain.model.AbstractModel
 import com.fasterxml.jackson.annotation.JsonFormat
 import org.springframework.format.annotation.DateTimeFormat
+import org.springframework.security.core.userdetails.UserDetails
 import java.time.LocalDateTime
+import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
 
 @Entity(name = "user_model")
-class UserModel(
+class UserModel (
 
     @Id
     @GeneratedValue(
@@ -18,11 +20,13 @@ class UserModel(
     )
     override var id: Long? = null,
 
-    val userName: String = "",
+    @Column(name="username", unique=true)
+    private var username: String? = "",
 
-    override var name: String? = "",
+    private var password: String? = "",
 
-    val password: String = "",
+    @Transient
+    var token: String? = "",
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -42,4 +46,44 @@ class UserModel(
 
     override var deleted: Boolean? = false,
 
-): AbstractModel
+): AbstractModel, UserDetails {
+
+    override fun getAuthorities(): Collection<RoleModel> {
+        return emptyList()
+    }
+
+    override fun getPassword(): String {
+        return password.orEmpty()
+    }
+
+    fun setPassword(password: String){
+        this.password = password
+    }
+
+    override fun getUsername(): String {
+        return username.orEmpty()
+    }
+
+    override fun isAccountNonExpired(): Boolean {
+        return true
+    }
+
+    override fun isAccountNonLocked(): Boolean {
+        return true
+    }
+
+    override fun isCredentialsNonExpired(): Boolean {
+        return true
+    }
+
+    override fun isEnabled(): Boolean {
+       return true
+    }
+
+    override var name: String?
+        get() = username
+
+        set(username) {
+            this.username = username
+        }
+}

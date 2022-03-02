@@ -38,7 +38,7 @@ abstract class AppGateway<U: AbstractModel> (
         appService.getAll()
 
     @GetMapping("/name/{name}")
-    fun getByName(@PathVariable name: String): U =
+    fun getByName(@PathVariable name: String): U? =
         appService.findByName(name)
 
     @PostMapping("/pageable")

@@ -5,11 +5,15 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 @Configuration
-class AppCorsConfigurer: WebMvcConfigurer {
+class AppCoresConfigure: WebMvcConfigurer {
 
 	override fun addCorsMappings(registry: CorsRegistry) {
 		registry
-			.addMapping("/**")
+			.addMapping(MAPPING)
 			.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS",  "HEAD", "TRACE", "CONNECT")
+	}
+
+	companion object{
+		const val MAPPING = "/**"
 	}
 }

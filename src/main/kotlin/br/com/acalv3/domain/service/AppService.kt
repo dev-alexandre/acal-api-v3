@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import java.time.LocalDateTime
+
 abstract class AppService<U: AbstractModel>(
     private val appRepository : JpaRepository<U, Long>,
     private val appSpec: JpaSpecificationExecutor<U>,
@@ -27,19 +28,7 @@ abstract class AppService<U: AbstractModel>(
             throw NoSuchElementException("Entity not found")
         }
 
-        try{
-            appRepository.deleteById(id)
-        } catch (ex: DataIntegrityViolationException) {
-            logicalDelete(id)
-        }
-    }
-
-    private fun logicalDelete(id: Long){
-        val deleted = appRepository.getById(id)
-        deleted.deletedAt = LocalDateTime.now()
-        deleted.deleted = true
-
-        appRepository.save(deleted)
+        appRepository.deleteById(id)
     }
 
     fun update(u: U) : U = run {
@@ -81,7 +70,7 @@ abstract class AppService<U: AbstractModel>(
     fun getAll(): List<U> =
         appRepository.findAll()
 
-    fun filterByExample(filter: FilterDTO<U>): List<U> {
+    open fun filterByExample(filter: FilterDTO<U>): List<U> {
 
         val sort = Sort.by(Sort.Direction.ASC, "name")
         val spec = AbstractSpec<U>(filter.model)
@@ -99,7 +88,7 @@ abstract class AppService<U: AbstractModel>(
     fun count(): Long =
         appRepository.count()
 
-    abstract fun findByName(name: String): U
+    abstract fun findByName(name: String): U?
 
     open fun validSave(u: U) = Unit
     open fun validEdit(u: U) = Unit
@@ -130,7 +119,6 @@ abstract class AppService<U: AbstractModel>(
         }
 
     }
-
 
     private fun getOrderDirection(filter: FilterDTO<U>): Sort {
 

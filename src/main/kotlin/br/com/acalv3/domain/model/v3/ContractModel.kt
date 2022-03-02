@@ -16,9 +16,7 @@ import javax.persistence.ManyToOne
 class ContractModel (
 
 	@Id
-    @GeneratedValue(
-	    strategy = GenerationType.IDENTITY,
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY,)
     override var id: Long? = null,
 
 	@Column(nullable = false, unique = true)
@@ -55,4 +53,5 @@ class ContractModel (
 	override var deletedBy: Long? = null,
 
 	override var deleted: Boolean? = false,
+
 ) : AbstractModel

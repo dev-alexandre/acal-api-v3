@@ -2,6 +2,7 @@ package br.com.acalv3.domain.spec
 
 import br.com.acalv3.domain.model.v3.AddressModel
 import br.com.acalv3.domain.spec.v3.AbstractSpec
+import org.testng.util.Strings
 import javax.persistence.criteria.CriteriaBuilder
 import javax.persistence.criteria.CriteriaQuery
 import javax.persistence.criteria.Predicate
@@ -52,6 +53,17 @@ class AddressSpec(
 						cb.equal(
 							root.get<Int>("addressType").get<Int>("id"),
 							model.addressType?.id
+					)
+				)
+			}
+		}
+
+		if(Strings.isNotNullAndNotEmpty(model.addressType?.name) ) {
+			with(predicates){
+				add(
+					cb.equal(
+						root.get<String>("addressType").get<Int>("name"),
+						model.addressType?.name
 					)
 				)
 			}
