@@ -12,7 +12,7 @@ class ContractDataBuilder : AbstractDataBuilder<ContractModel>() {
 
 	var customer: CustomerModel? = CustomerDataBuilder.build { }
 	var group: GroupModel? = GroupDataBuilder.build { }
-	var nameBusiness: String? = ""
+	private var nameBusiness: String? = ""
 	var placeResidence: PlaceModel? = PlaceDataBuilder.build { }
 	var placeMail: PlaceModel? = PlaceDataBuilder.build { }
 

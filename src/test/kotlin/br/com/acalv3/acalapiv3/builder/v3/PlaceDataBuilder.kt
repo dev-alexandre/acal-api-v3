@@ -6,9 +6,9 @@ import br.com.acalv3.domain.model.v3.PlaceModel
 
 class PlaceDataBuilder: AbstractDataBuilder<PlaceModel>() {
 
-	var number: String? = "1"
-	var letter: String? = "A"
-	var address: AddressModel? = AddressDataBuilder.build {}
+	private var number: String? = "1"
+	private var letter: String? = "A"
+	private var address: AddressModel? = AddressDataBuilder.build {}
 
 	override fun build() = PlaceModel(
 		id = id,

@@ -39,7 +39,7 @@ class AppSecurityConfig(
 			.csrf().disable()
 			.cors().and()
 			.authorizeRequests()
-			.antMatchers(LOGIN_ROUTER, HttpMethod.POST.name).permitAll()
+			.antMatchers(LOGIN_ROUTER).permitAll()
 			.anyRequest().authenticated()
 			.and()
 			.exceptionHandling().accessDeniedHandler(accessDeniedHandler())

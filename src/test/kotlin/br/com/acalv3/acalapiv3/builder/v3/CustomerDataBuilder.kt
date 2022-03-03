@@ -8,10 +8,10 @@ class CustomerDataBuilder : AbstractDataBuilder<CustomerModel>() {
 
 	override var name: String? = "Alexandre"
 
-	var businessName: String? = "NCC enterprise"
-	var document: String? = "03396885562"
-	var phoneNumber: String? = "71988872479"
-	var birthDate: LocalDate? = LocalDate.of(1987,5,20)
+	private var businessName: String? = "NCC enterprise"
+	private var document: String? = "03396885562"
+	private var phoneNumber: String? = "71988872479"
+	private var birthDate: LocalDate? = LocalDate.of(1987,5,20)
 
 	override fun build() = CustomerModel(
 		id = id,
