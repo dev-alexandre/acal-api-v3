@@ -1,5 +1,6 @@
-package br.com.acalv3.application.security
+package br.com.acalv3.application.filter
 
+import br.com.acalv3.application.security.TokenAuthenticationService
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.filter.GenericFilterBean
 import javax.servlet.FilterChain

@@ -1,5 +1,6 @@
-package br.com.acalv3.application.security
+package br.com.acalv3.application.filter
 
+import br.com.acalv3.application.security.TokenAuthenticationService
 import br.com.acalv3.domain.model.v3.UserModel
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.security.authentication.AuthenticationManager

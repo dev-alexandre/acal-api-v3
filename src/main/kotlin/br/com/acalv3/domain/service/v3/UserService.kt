@@ -37,9 +37,8 @@ class UserService (
 			throw RuntimeException("Senha é paramêtro obrigatório")
 		}
 
-
-
 		BCryptPasswordEncoder().encode(userModel.password).also { userModel.password = it }
+		super.prepareForSave(userModel)
 		userRepository.save(userModel)
 	}
 

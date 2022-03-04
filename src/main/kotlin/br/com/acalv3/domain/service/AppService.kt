@@ -32,7 +32,6 @@ abstract class AppService<U: AbstractModel>(
     }
 
     fun update(u: U) : U = run {
-
         validEdit(u)
         prepareForSave(u)
         saveCommit(u)

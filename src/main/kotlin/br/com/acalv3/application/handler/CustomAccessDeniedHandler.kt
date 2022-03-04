@@ -1,4 +1,4 @@
-package br.com.acalv3.application.security
+package br.com.acalv3.application.handler
 
 import org.springframework.security.access.AccessDeniedException
 import org.springframework.security.web.access.AccessDeniedHandler

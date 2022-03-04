@@ -1,5 +1,8 @@
 package br.com.acalv3.application.security
 
+import br.com.acalv3.application.filter.JWTAuthenticationFilter
+import br.com.acalv3.application.filter.JWTLoginFilter
+import br.com.acalv3.application.handler.CustomAccessDeniedHandler
 import br.com.acalv3.domain.service.v3.UserService
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.context.annotation.Bean
@@ -15,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.web.access.AccessDeniedHandler
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher
+
 
 @Configuration
 @EnableWebSecurity
@@ -40,16 +44,16 @@ class AppSecurityConfig(
 			.cors().and()
 			.authorizeRequests()
 			.antMatchers(LOGIN_ROUTER).permitAll()
-			.anyRequest().authenticated()
-			.and()
+			.anyRequest().authenticated().and()
 			.exceptionHandling().accessDeniedHandler(accessDeniedHandler())
 			.and()
 			.addFilterBefore(
 				jwtLoginFilter,
 				UsernamePasswordAuthenticationFilter::class.java
 			)
-			.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
-
+			.addFilterBefore(
+				jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java
+			)
 			.logout()
 			.logoutRequestMatcher(AntPathRequestMatcher(LOGOUT_ROUTER, HttpMethod.POST.name))
 	}
