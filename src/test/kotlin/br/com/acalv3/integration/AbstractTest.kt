@@ -1,6 +1,6 @@
 package br.com.acalv3.integration
 
-import br.com.acalv3.domain.model.AbstractModel
+import br.com.acalv3.domain.model.AbstractNamedModel
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
@@ -10,7 +10,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-abstract class AbstractTest<U: AbstractModel>{
+abstract class AbstractTest<U: AbstractNamedModel>{
 
 	abstract fun getMockMvcInstance() : MockMvc
 	abstract fun getUrl(): String
@@ -98,7 +98,7 @@ abstract class AbstractTest<U: AbstractModel>{
 		return result.response.contentAsString
 	}
 
-	fun delete(u: AbstractModel) {
+	fun delete(u: AbstractNamedModel) {
 		getMockMvcInstance().perform(
 			MockMvcRequestBuilders
 				.delete("${getUrl()}/${u.id}")

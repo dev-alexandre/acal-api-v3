@@ -1,7 +1,7 @@
 package br.com.acalv3.domain.gateway
 
 import br.com.acalv3.domain.dto.FilterDTO
-import br.com.acalv3.domain.model.AbstractModel
+import br.com.acalv3.domain.model.AbstractNamedModel
 import br.com.acalv3.domain.service.AppService
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-abstract class AppGateway<U: AbstractModel> (
+abstract class AppGateway<U: AbstractNamedModel> (
     private val appService: AppService<U>
     ) {
 

@@ -13,6 +13,7 @@ class AuthGateway(
 	val service: UserService
 ){
 	@PostMapping("register")
-	fun register(@RequestBody userModel: UserModel) =
+	fun register(@RequestBody userModel: UserModel) = run {
 		service.registerUser(userModel)
+	}
 }

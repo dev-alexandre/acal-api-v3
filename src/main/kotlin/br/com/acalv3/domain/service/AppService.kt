@@ -4,6 +4,7 @@ import br.com.acalv3.domain.dto.FilterDTO
 import br.com.acalv3.domain.exception.DuplicatedFieldException
 import br.com.acalv3.domain.exception.RequiredFieldException
 import br.com.acalv3.domain.model.AbstractModel
+import br.com.acalv3.domain.model.AbstractNamedModel
 import br.com.acalv3.domain.spec.v3.AbstractSpec
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -25,7 +26,7 @@ abstract class AppService<U: AbstractModel>(
         logger.info("delete by id $id")
 
         if(!appRepository.existsById(id)){
-            throw NoSuchElementException("Entity not found")
+            throw NoSuchElementException(ENTITY_NOT_FOUND)
         }
 
         appRepository.deleteById(id)
@@ -36,7 +37,6 @@ abstract class AppService<U: AbstractModel>(
         prepareForSave(u)
         saveCommit(u)
     }
-
 
     fun save(u: U) : U = run {
         validSave(u)
@@ -52,34 +52,37 @@ abstract class AppService<U: AbstractModel>(
             return appRepository.save(u)
 
         } catch (ex: DataIntegrityViolationException){
-            logger.info("Campo nulo", ex)
-            throw RequiredFieldException(ex, "Campo nulo")
+            logger.info(NULL_FIELD, ex)
+            throw RequiredFieldException(ex, NULL_FIELD)
         } catch (ex: Exception){
 
-            logger.info("Duplicated", ex)
-            throw DuplicatedFieldException("Duplicated")
+            logger.info(DUPLICATED, ex)
+            throw DuplicatedFieldException(DUPLICATED)
         }
     }
 
     fun get(id: Long): U =
         appRepository.findById(id).orElseThrow {
-            NoSuchElementException("Entity not found")
+            NoSuchElementException(ENTITY_NOT_FOUND)
         }
 
     fun getAll(): List<U> =
         appRepository.findAll()
 
     open fun filterByExample(filter: FilterDTO<U>): List<U> {
+        val model = filter.model as AbstractNamedModel
 
-        val sort = Sort.by(Sort.Direction.ASC, "name")
-        val spec = AbstractSpec<U>(filter.model)
+        val sort = Sort.by(Sort.Direction.ASC, NAME)
+        val spec = AbstractSpec<U>(model)
 
         return appSpec.findAll(spec, sort)
     }
 
     open fun pageable(filter: FilterDTO<U>): Page<U> {
+
+        val model = filter.model as AbstractNamedModel
         return appSpec.findAll(
-            AbstractSpec<U>(filter.model),
+            AbstractSpec<U>(model),
                 getPage(filter)
             )
     }
@@ -122,10 +125,17 @@ abstract class AppService<U: AbstractModel>(
     private fun getOrderDirection(filter: FilterDTO<U>): Sort {
 
         return when (filter.sort!!.asc) {
-            null -> { Sort.by(Sort.Direction.ASC, "name") }
+            null -> { Sort.by(Sort.Direction.ASC, NAME) }
             true -> { Sort.by(Sort.Direction.ASC, filter.sort!!.value) }
             false ->{ Sort.by(Sort.Direction.DESC, filter.sort!!.value )}
         }
+    }
+
+    companion object{
+        const val NAME = "name"
+        const val ENTITY_NOT_FOUND = "Entity not found"
+        const val NULL_FIELD = "Campo nulo"
+        const val DUPLICATED = "Duplicated"
     }
 }
 

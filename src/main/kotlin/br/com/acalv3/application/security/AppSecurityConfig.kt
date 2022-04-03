@@ -44,8 +44,9 @@ class AppSecurityConfig(
 			.cors().and()
 			.authorizeRequests()
 			.antMatchers(LOGIN_ROUTER).permitAll()
+			.antMatchers(REGISTER_ROUTER).permitAll()
 			.anyRequest().authenticated().and()
-			.exceptionHandling().accessDeniedHandler(accessDeniedHandler())
+			.exceptionHandling().accessDeniedHandler( CustomAccessDeniedHandler())
 			.and()
 			.addFilterBefore(
 				jwtLoginFilter,
@@ -55,7 +56,7 @@ class AppSecurityConfig(
 				jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java
 			)
 			.logout()
-			.logoutRequestMatcher(AntPathRequestMatcher(LOGOUT_ROUTER, HttpMethod.POST.name))
+				.logoutRequestMatcher(AntPathRequestMatcher(LOGOUT_ROUTER, HttpMethod.POST.name))
 	}
 
 	override fun configure(auth: AuthenticationManagerBuilder) {
@@ -80,6 +81,7 @@ class AppSecurityConfig(
 	}
 
 	companion object{
+		const val REGISTER_ROUTER = "/auth/register"
 		const val LOGIN_ROUTER = "/auth/login"
 		const val LOGOUT_ROUTER = "/auth/logout"
 	}

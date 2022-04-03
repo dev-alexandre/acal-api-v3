@@ -1,6 +1,6 @@
 package br.com.acalv3.domain.spec.v3
 
-import br.com.acalv3.domain.model.AbstractModel
+import br.com.acalv3.domain.model.AbstractNamedModel
 import org.springframework.data.jpa.domain.Specification
 import org.testng.util.Strings
 import java.time.LocalDateTime
@@ -10,7 +10,7 @@ import javax.persistence.criteria.Predicate
 import javax.persistence.criteria.Root
 
 open class AbstractSpec<T>(
-	open val model: AbstractModel
+	open val model: AbstractNamedModel
 	): Specification<T>  {
 
 	override fun toPredicate(

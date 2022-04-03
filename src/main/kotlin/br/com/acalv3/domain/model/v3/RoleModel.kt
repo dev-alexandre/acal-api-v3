@@ -2,17 +2,31 @@ package br.com.acalv3.domain.model.v3
 
 import br.com.acalv3.domain.model.AbstractModel
 import com.fasterxml.jackson.annotation.JsonFormat
+import com.fasterxml.jackson.annotation.JsonIgnore
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.security.core.GrantedAuthority
 import java.time.LocalDateTime
+import javax.persistence.CascadeType
+import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
+import javax.persistence.Id
+import javax.persistence.ManyToOne
 
+@Entity(name = "role_model")
 data class RoleModel (
 
+    @Id
+    @GeneratedValue(
+        strategy = GenerationType.IDENTITY,
+    )
     override var id: Long? = null,
 
-    private val authority: String,
+    private val authority: String? = "",
 
-    override var name: String? = "",
+    @JsonIgnore
+    @ManyToOne(optional = false, cascade = [CascadeType.DETACH])
+    var user: UserModel? = null,
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -35,6 +49,6 @@ data class RoleModel (
 ) : AbstractModel, GrantedAuthority {
 
     override fun getAuthority(): String {
-        return name.orEmpty()
+        return authority.orEmpty()
     }
 }

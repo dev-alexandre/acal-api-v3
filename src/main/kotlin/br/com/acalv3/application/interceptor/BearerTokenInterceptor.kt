@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 class BearerTokenInterceptor(
-	val tokenWrapper: BearerTokenWrapper
+	private val tokenWrapper: BearerTokenWrapper
 ): OncePerRequestFilter() {
 
 	override fun doFilterInternal(

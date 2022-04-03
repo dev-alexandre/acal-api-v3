@@ -1,6 +1,7 @@
 package br.com.acalv3.application.security
 
 import br.com.acalv3.domain.model.v3.UserModel
+import br.com.acalv3.domain.response.UserResponse
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.Jwts
@@ -23,19 +24,18 @@ class TokenAuthenticationService(
 	fun addAuthentication(response: HttpServletResponse, auth: Authentication) {
 		val userModel: UserModel = auth.principal as UserModel
 
+		val roles = userModel.roles?.map { it.authority }
 		val jwt = Jwts.builder()
-			.setSubject(auth.name)
-			.claim("role", auth.authorities)
-			.claim("name", auth.name)
-			.claim("id",userModel.id)
 
+			.setSubject(auth.name)
+				.claim("role", roles)
+				.claim("name", auth.name)
 			.setExpiration(
 				Date
 					.from(LocalDateTime.now()
-					.plusHours(HOURS_TO_EXPIRATION)
-					.atZone(ZoneId.systemDefault()).toInstant())
-			)
-			.signWith(
+						.plusHours(HOURS_TO_EXPIRATION)
+						.atZone(ZoneId.systemDefault()).toInstant())
+			).signWith(
 				SignatureAlgorithm.HS512,
 				SecretKeySpec(
 					DatatypeConverter.parseBase64Binary(SECRET),
@@ -45,10 +45,15 @@ class TokenAuthenticationService(
 
 		val token = jwt.compact()
 		userModel.token = token
-		response.addHeader(HEADER_STRING, "$TOKEN_PREFIX $token")
+
+		val stringResponse = objectMapper.writeValueAsString(UserResponse(
+			username = userModel.username,
+			token = token,
+			roles = roles
+		))
 
 		try {
-			response.writer.write(objectMapper.writeValueAsString(userModel))
+			response.writer.write(stringResponse)
 			response.writer.flush()
 			response.writer.close()
 		} catch (e: IOException) {
@@ -80,8 +85,8 @@ class TokenAuthenticationService(
 
 	companion object{
 		private const val ERROR_MESSAGE = "É, você não possui permissão"
-		private const val HOURS_TO_EXPIRATION: Long = 48
-		private const val SECRET = "mySecret"
+		private const val HOURS_TO_EXPIRATION: Long = 8
+		private const val SECRET = "2a108Imja6xTLcqhRUDVrVusTuW7xVtjifhrJon1bDyBkdRzuLSHBVY2q"
 		private const val TOKEN_PREFIX = "Bearer"
 		private const val HEADER_STRING = "Authorization"
 	}

@@ -5,11 +5,13 @@ import com.fasterxml.jackson.annotation.JsonFormat
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.security.core.userdetails.UserDetails
 import java.time.LocalDateTime
+import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.OneToMany
 
 @Entity(name = "user_model")
 class UserModel (
@@ -24,6 +26,9 @@ class UserModel (
     private var username: String? = "",
 
     private var password: String? = "",
+
+    @OneToMany(cascade = [CascadeType.PERSIST])
+    var roles: List<RoleModel>? = mutableListOf(),
 
     @Transient
     var token: String? = "",
@@ -48,8 +53,8 @@ class UserModel (
 
 ): AbstractModel, UserDetails {
 
-    override fun getAuthorities(): Collection<RoleModel> {
-        return emptyList()
+    override fun getAuthorities(): List<RoleModel>? {
+        return roles
     }
 
     override fun getPassword(): String {
@@ -79,11 +84,4 @@ class UserModel (
     override fun isEnabled(): Boolean {
        return true
     }
-
-    override var name: String?
-        get() = username
-
-        set(username) {
-            this.username = username
-        }
 }

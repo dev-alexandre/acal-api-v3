@@ -3,6 +3,8 @@ package br.com.acalv3.application.filter
 import br.com.acalv3.application.security.TokenAuthenticationService
 import br.com.acalv3.domain.model.v3.UserModel
 import com.fasterxml.jackson.databind.ObjectMapper
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
@@ -21,9 +23,13 @@ class JWTLoginFilter(
 	AbstractAuthenticationProcessingFilter(
 		AntPathRequestMatcher(url)
 	) {
+	private var logger: Logger = LoggerFactory.getLogger(JWTLoginFilter::class.java)
 
 	override fun attemptAuthentication(request: HttpServletRequest?, response: HttpServletResponse?): Authentication {
-		val credentials: UserModel =  objectMapper.readValue(request?.inputStream, UserModel().javaClass)
+
+		val credentials: UserModel = objectMapper.readValue(request?.inputStream, UserModel().javaClass).also {
+			logger.info("attempt authentication for user:${it.username}")
+		}
 
 		val usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(
 			credentials.username,
@@ -40,6 +46,8 @@ class JWTLoginFilter(
 		chain: FilterChain?,
 		authResult: Authentication
 	) {
+		logger.info("successful Authentication for user: ${(authResult.principal as UserModel).username}")
+
 		return tokenAuthenticationService.addAuthentication(response, authResult)
 	}
 

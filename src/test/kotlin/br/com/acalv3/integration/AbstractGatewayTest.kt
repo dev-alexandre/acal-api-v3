@@ -1,6 +1,6 @@
 package br.com.acalv3.integration
 
-import br.com.acalv3.domain.model.AbstractModel
+import br.com.acalv3.domain.model.AbstractNamedModel
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
@@ -19,7 +19,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 @RunWith(SpringRunner::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-abstract class AbstractGatewayTest  <U: AbstractModel>: AbstractTest<U>()  {
+abstract class AbstractGatewayTest  <U: AbstractNamedModel>: AbstractTest<U>()  {
 
 	abstract override fun getMockMvcInstance() : MockMvc
 	abstract override fun getUrl(): String

@@ -1,6 +1,6 @@
 package br.com.acalv3.domain.model.v3
 
-import br.com.acalv3.domain.model.AbstractModel
+import br.com.acalv3.domain.model.AbstractNamedModel
 import com.fasterxml.jackson.annotation.JsonFormat
 import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalDateTime
@@ -43,4 +43,4 @@ class AddressModel (
 
 	override var deleted: Boolean? = false,
 
-) : AbstractModel
+) : AbstractNamedModel
